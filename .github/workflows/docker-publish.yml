@@ -4,7 +4,7 @@ on:
   workflow_dispatch:  # This makes it manual-only
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build:
