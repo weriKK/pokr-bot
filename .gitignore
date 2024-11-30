@@ -3,7 +3,7 @@ config.json
 .env
 
 # Application data
-data/*
+data/*.sqlite
 
 # Logs
 logs
