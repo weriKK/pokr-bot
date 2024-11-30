@@ -1,0 +1,20 @@
+{
+  "name": "reminder-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "keyv": "^5.2.1",
+    "@keyv/sqlite": "^3.6.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.15.0"
+  }
+}
