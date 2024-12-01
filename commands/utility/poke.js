@@ -47,7 +47,7 @@ async function sendReminder(client, reminder, reminderId) {
         const channel = await client.channels.fetch(reminder.channelId);
         const pokeEmojis = ['👉', '🫵', '👆', '😜', '🤔'];
         const randomEmoji = pokeEmojis[Math.floor(Math.random() * pokeEmojis.length)];
-        await channel.send(`${randomEmoji} <@${reminder.userId}> *poke poke* - ${reminder.reason}`);
+        await channel.send({ content: `${randomEmoji} <@${reminder.userId}> *poke poke* - ${reminder.reason}`, ephemeral: true });
         await reminders.store.query('DELETE FROM keyv WHERE key = ?', [reminderId]);
         processNextReminder(client);
     } catch (error) {
@@ -104,7 +104,10 @@ module.exports = {
         
         const milliseconds = parseTime(timeStr);
         if (!milliseconds) {
-            return interaction.reply('Invalid time format! Please use something like 1h, 30m, or 2d');
+            return interaction.reply({ 
+                content: 'Invalid time format! Please use something like 1h, 30m, or 2d',
+                ephemeral: true 
+            });
         }
 
         const reminder = {
@@ -117,10 +120,13 @@ module.exports = {
         const reminderId = `poke_${Date.now()}_${interaction.user.id}`;
         await reminders.set(reminderId, reminder);
 
-        // Schedule next reminder (this will either schedule this one if it's next, or leave the current next one if it's sooner)
-        await processNextReminder(interaction.client);
+        await interaction.reply({ 
+            content: `I'll poke you about "${reason}" in ${timeStr} 👉`,
+            ephemeral: true 
+        });
 
-        await interaction.reply(`I'll poke you about "${reason}" in ${timeStr} 👉`);
+        // Schedule next reminder
+        await processNextReminder(interaction.client);        
     },
     processNextReminder
 };
