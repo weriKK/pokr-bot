@@ -44,10 +44,10 @@ function parseTime(timeStr) {
 
 async function sendReminder(client, reminder, reminderId) {
     try {
-        const channel = await client.channels.fetch(reminder.channelId);
+        const user = await client.users.fetch(reminder.userId);
         const pokeEmojis = ['👉', '🫵', '👆', '😜', '🤔'];
         const randomEmoji = pokeEmojis[Math.floor(Math.random() * pokeEmojis.length)];
-        await channel.send({ content: `${randomEmoji} <@${reminder.userId}> *poke poke* - ${reminder.reason}`, ephemeral: true });
+        await user.send(`${randomEmoji} *poke poke* - ${reminder.reason}`);
         await reminders.store.query('DELETE FROM keyv WHERE key = ?', [reminderId]);
         processNextReminder(client);
     } catch (error) {
