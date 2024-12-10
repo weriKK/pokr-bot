@@ -55,6 +55,11 @@ services:
       - ./data:/usr/src/app/data
 EOF
 
+if [ $? -ne 0 ]; then
+  echo "Error: Docker Compose failed"
+  exit 1
+fi
+
 # Verify the container is running
 if ! docker ps | grep -q "$CONTAINER_NAME"; then
     echo "Error: Container failed to start"
