@@ -6,9 +6,12 @@ module.exports = {
         .setDescription('Get bot status information'),
 
     async execute(interaction) {
-        const sent = await interaction.reply({ content: 'Pinging...', ephemeral: true, fetchReply: true });
+        const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
         const latency = sent.createdTimestamp - interaction.createdTimestamp;
         
+        const deployDate = new Date(process.env.DEPLOY_TIME);
+        const timestamp = `<t:${Math.floor(deployDate.getTime() / 1000)}:F>`;
+
         const statusEmbed = {
             color: 0x0099FF,
             title: 'Bot Status',
@@ -19,7 +22,7 @@ module.exports = {
                 },
                 {
                     name: '📅 Deployment Time',
-                    value: new Date(process.env.DEPLOY_TIME).toLocaleString(),
+                    value: timestamp,
                 },
                 {
                     name: '📡 Latency',
