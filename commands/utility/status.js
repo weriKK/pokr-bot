@@ -32,7 +32,7 @@ module.exports = {
                 },
                 {
                     name: '📡 Latency',
-                    value: `${latency}ms`,
+                    value: `Bot Latency: ${latency}ms\nWebSocket Latency: ${interaction.client.ws.ping}ms`
                 },
                 {
                     name: '🤖 Available Commands',
