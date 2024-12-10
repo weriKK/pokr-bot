@@ -50,7 +50,7 @@ then
 fi
 
 # Record deployment time with timezone
-DEPLOY_TIME=$(date -u +"%Y-%m-%dT%H:%M:%S %Z")
+DEPLOY_TIME=$(date -u +"%Y-%m-%dT%H:%M:%S+00:00")
 
 # Create or replace the container using docker compose
 docker compose -f - up -d <<EOF
