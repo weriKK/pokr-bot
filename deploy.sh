@@ -49,6 +49,9 @@ then
     exit 1
 fi
 
+# Record deployment time
+DEPLOY_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
 # Create or replace the container using docker compose
 docker compose -f - up -d <<EOF
 services:
@@ -56,6 +59,10 @@ services:
     image: ${IMAGE_NAME}:${BUILD_NUMBER}
     container_name: pokr-bot
     restart: unless-stopped
+    environment:
+      - BUILD_NUMBER=${BUILD_NUMBER}
+      - IMAGE_NAME=${IMAGE_NAME}
+      - DEPLOY_TIME=${DEPLOY_TIME}
     volumes:
       - ./config.json:/usr/src/app/config.json
       - ./data:/usr/src/app/data
