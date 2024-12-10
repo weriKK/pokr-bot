@@ -11,7 +11,7 @@ on:
         type: number  
 
 env:
-  IMAGE_NAME: d${{ github.event.repository.name }}
+  IMAGE_NAME: ${{ github.event.repository.name }}
 
 jobs:
   build:
