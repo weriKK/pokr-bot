@@ -12,6 +12,12 @@ module.exports = {
         const deployDate = new Date(process.env.DEPLOY_TIME);
         const timestamp = `<t:${Math.floor(deployDate.getTime() / 1000)}:F>`;
 
+        // Get all commands
+        const commands = Array.from(interaction.client.commands.values());
+        const commandList = commands
+            .map(cmd => `\`/${cmd.data.name}\` - ${cmd.data.description}`)
+            .join('\n');
+
         const statusEmbed = {
             color: 0x0099FF,
             title: 'Bot Status',
@@ -26,7 +32,11 @@ module.exports = {
                 },
                 {
                     name: '📡 Latency',
-                    value: `Bot Latency: ${latency}ms\nWebSocket Latency: ${interaction.client.ws.ping}ms`,
+                    value: `${latency}ms`,
+                },
+                {
+                    name: '🤖 Available Commands',
+                    value: commandList,
                 }
             ],
             timestamp: new Date().toISOString(),
