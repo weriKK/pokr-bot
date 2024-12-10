@@ -36,17 +36,30 @@ fi
 
 echo "Deploying $IMAGE_NAME with build: $BUILD_NUMBER"
 
-export IMAGE_NAME BUILD_NUMBER  # Export variables for docker-compose to use
-
 # Pull new image
+# Using docker compose, because it always force pulls the image
 echo "Pulling new image..."
-if ! docker compose -f docker-compose.yml pull; then
+if ! docker compose -f - pull <<EOF
+services:
+  pokr-bot:
+    image: ${IMAGE_NAME}:${BUILD_NUMBER}
+EOF
+then
     echo "Error: Failed to pull new image"
     exit 1
 fi
 
 # Create or replace the container using docker compose
-docker compose -f docker-compose.yml up -d
+docker compose -f - up -d <<EOF
+services:
+  pokr-bot:
+    image: ${IMAGE_NAME}:${BUILD_NUMBER}
+    container_name: pokr-bot
+    restart: unless-stopped
+    volumes:
+      - ./config.json:/usr/src/app/config.json
+      - ./data:/usr/src/app/data
+EOF
 
 if [ $? -ne 0 ]; then
   echo "Error: Docker Compose failed"

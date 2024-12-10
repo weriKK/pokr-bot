@@ -1,8 +1,0 @@
-services:
-  pokr-bot:
-    image: ${IMAGE_NAME}:${BUILD_NUMBER}
-    container_name: pokr-bot
-    restart: unless-stopped
-    volumes:
-      - ./config.json:/usr/src/app/config.json
-      - ./data:/usr/src/app/data 
